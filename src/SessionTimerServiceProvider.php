@@ -9,7 +9,8 @@ class SessionTimerServiceProvider extends ServiceProvider
     public function boot()
     {
         $source = __DIR__ . '/config/session-timer.php';
-        $this->publishes([$source => config_path('session-timer.php')]);
+        $jsSource = __DIR__ . '/resources/assets/main.js';
+        $this->publishes([$source => config_path('session-timer.php'), $jsSource => public_path("assets/vendor/session-timer.js")]);
         $this->mergeConfigFrom($source, 'session-timer');
     }
 
@@ -18,7 +19,6 @@ class SessionTimerServiceProvider extends ServiceProvider
         if (function_exists("registerBindings")) {
             $this->registerBindings($this->app);
         }
-        
-        $this->loadViewsFrom('resources/views/index', 'sessionTimer');
+        $this->loadViewsFrom(__DIR__ . '/resources/views', 'sessionTimer');
     }
 }
